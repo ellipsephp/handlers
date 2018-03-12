@@ -14,7 +14,7 @@ This package provides [Psr-15](https://www.php-fig.org/psr/psr-15/) request hand
 
 ## Request handler with middleware
 
-This package provides a `Ellipse\Handlers\RequestHandlerWithMiddleware` class allowing to wrap a middleware around a request handler.
+This package provides an `Ellipse\Handlers\RequestHandlerWithMiddleware` class allowing to wrap a middleware around a request handler.
 
 ```php
 <?php
@@ -36,7 +36,7 @@ $response = $decorated->handle($request);
 
 ## Request handler with middleware stack
 
-This package provides a `Ellipse\Handlers\RequestHandlerWithMiddlewareStack` class allowing to wrap many middleware around a request handler in LIFO order.
+This package provides an `Ellipse\Handlers\RequestHandlerWithMiddlewareStack` class allowing to wrap many middleware around a request handler in LIFO order.
 
 ```php
 <?php
@@ -62,7 +62,7 @@ $response = $decorated->handle($request);
 
 ## Request handler with middleware queue
 
-This package provides a `Ellipse\Handlers\RequestHandlerWithMiddlewareQueue` class allowing to wrap many middleware around a request handler in FIFO order.
+This package provides an `Ellipse\Handlers\RequestHandlerWithMiddlewareQueue` class allowing to wrap many middleware around a request handler in FIFO order.
 
 ```php
 <?php
