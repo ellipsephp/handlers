@@ -8,9 +8,31 @@ This package provides [Psr-15](https://www.php-fig.org/psr/psr-15/) request hand
 
 **Run tests** `./vendor/bin/kahlan`
 
+- [Fallback request handler](https://github.com/ellipsephp/handlers#fallback-request-handler)
 - [Request handler with middleware](https://github.com/ellipsephp/handlers#request-handler-with-middleware)
 - [Request handler with middleware stack](https://github.com/ellipsephp/handlers#request-handler-with-middleware-stack)
 - [Request handler with middleware queue](https://github.com/ellipsephp/handlers#request-handler-with-middleware-queue)
+
+## Fallback request handler
+
+An usual starting point for request handler decorators is to have a request handler returning a default response when its `->handle()` method is called. This package provides an `Ellipse\Handlers\FallbackRequestHandler` class implementing this logic.
+
+```php
+<?php
+
+namespace App;
+
+use Ellipse\Handlers\FallbackRequestHandler;
+
+// Get some fallback Psr-7 response, here with a 404 status code.
+$response = some_psr7_response_factory()->withStatus(404);
+
+// Create a fallback request handler returning the response.
+$fallback = new FallbackRequestHandler($response);
+
+// The response is returned.
+$response = $fallback->handle($request);
+```
 
 ## Request handler with middleware
 
@@ -21,16 +43,17 @@ This package provides an `Ellipse\Handlers\RequestHandlerWithMiddleware` class a
 
 namespace App;
 
+use Ellipse\Handlers\FallbackRequestHandler;
 use Ellipse\Handlers\RequestHandlerWithMiddleware;
 
 // create Psr-15 middleware and request handler.
 $middleware = new SomeMiddleware;
-$handler = new SomeHandler;
+$handler = new FallbackRequestHandler($response);
 
 // Wrap the middleware around the request handler.
 $decorated = new RequestHandlerWithMiddleware($handler, $middleware);
 
-// The request goes through the middleware then hit the request handler.
+// The request goes through the middleware then hit the fallback request handler.
 $response = $decorated->handle($request);
 ```
 
@@ -43,12 +66,13 @@ This package provides an `Ellipse\Handlers\RequestHandlerWithMiddlewareStack` cl
 
 namespace App;
 
+use Ellipse\Handlers\FallbackRequestHandler;
 use Ellipse\Handlers\RequestHandlerWithMiddlewareStack;
 
 // create Psr-15 middleware and request handler.
 $middleware1 = new SomeMiddleware1;
 $middleware2 = new SomeMiddleware2;
-$handler = new SomeHandler;
+$handler = new FallbackRequestHandler($response);
 
 // Wrap the middleware around the request handler in LIFO order.
 $decorated = new RequestHandlerWithMiddlewareStack($handler, [
@@ -56,7 +80,7 @@ $decorated = new RequestHandlerWithMiddlewareStack($handler, [
     $middleware1,
 ]);
 
-// The request goes through middleware1, middleware2, then hit the request handler.
+// The request goes through middleware1, middleware2, then hit the fallback request handler.
 $response = $decorated->handle($request);
 ```
 
@@ -69,12 +93,13 @@ This package provides an `Ellipse\Handlers\RequestHandlerWithMiddlewareQueue` cl
 
 namespace App;
 
+use Ellipse\Handlers\FallbackRequestHandler;
 use Ellipse\Handlers\RequestHandlerWithMiddlewareQueue;
 
 // create Psr-15 middleware and request handler.
 $middleware1 = new SomeMiddleware1;
 $middleware2 = new SomeMiddleware2;
-$handler = new SomeHandler;
+$handler = new FallbackRequestHandler($response);
 
 // Wrap the middleware around the request handler in FIFO order.
 $decorated = new RequestHandlerWithMiddlewareQueue($handler, [
@@ -82,6 +107,6 @@ $decorated = new RequestHandlerWithMiddlewareQueue($handler, [
     $middleware2,
 ]);
 
-// The request goes through middleware1, middleware2, then hit the request handler.
+// The request goes through middleware1, middleware2, then hit the fallback request handler.
 $response = $decorated->handle($request);
 ```
