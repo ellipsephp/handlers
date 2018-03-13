@@ -8,10 +8,10 @@ This package provides [Psr-15](https://www.php-fig.org/psr/psr-15/) request hand
 
 **Run tests** `./vendor/bin/kahlan`
 
-- [Fallback request handler](https://github.com/ellipsephp/handlers#fallback-request-handler)
-- [Request handler with middleware](https://github.com/ellipsephp/handlers#request-handler-with-middleware)
-- [Request handler with middleware stack](https://github.com/ellipsephp/handlers#request-handler-with-middleware-stack)
-- [Request handler with middleware queue](https://github.com/ellipsephp/handlers#request-handler-with-middleware-queue)
+- [Fallback request handler](#fallback-request-handler)
+- [Request handler with middleware](#request-handler-with-middleware)
+- [Request handler with middleware stack](#request-handler-with-middleware-stack)
+- [Request handler with middleware queue](#request-handler-with-middleware-queue)
 
 ## Fallback request handler
 
