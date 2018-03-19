@@ -6,6 +6,8 @@ use TypeError;
 
 use Psr\Http\Server\MiddlewareInterface;
 
+use Ellipse\Exceptions\TypeErrorMessage;
+
 class MiddlewareTypeException extends TypeError implements RequestHandlerExceptionInterface
 {
     private $value;
@@ -14,13 +16,9 @@ class MiddlewareTypeException extends TypeError implements RequestHandlerExcepti
     {
         $this->value = $value;
 
-        $template = "Trying to use a value of type %s as middleware - object implementing %s expected";
+        $msg = new TypeErrorMessage('middleware', $value, MiddlewareInterface::class);
 
-        $type = is_object($value) ? get_class($value) : gettype($value);
-
-        $msg = sprintf($template, $type, MiddlewareInterface::class);
-
-        parent::__construct($msg);
+        parent::__construct((string) $msg);
     }
 
     public function value()
